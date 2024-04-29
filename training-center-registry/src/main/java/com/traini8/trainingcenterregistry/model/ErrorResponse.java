@@ -10,6 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ErrorResponse {
-    private String message;
-    private boolean status;
+    private String message;  // Message describing the error
+    private boolean status;  // Status indicating success or failure  true - success, false - failure
 }

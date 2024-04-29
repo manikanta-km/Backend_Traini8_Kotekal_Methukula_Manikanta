@@ -6,7 +6,6 @@ import com.traini8.trainingcenterregistry.repo.ITrainingCenterRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,16 +15,8 @@ public class TrainingCenterService {
     @Autowired
     ITrainingCenterRepo trainingCenterRepo;
 
+    // Method to add a new training center
     public TrainingCenter addNewCenter(TrainingCenter newCenter) {
-        String centerCode = newCenter.getCenterCode();
-        // Check if the center code is null or empty
-        if (centerCode == null || centerCode.isEmpty()) {
-            throw new IllegalArgumentException("Center code is required!");
-        }
-        // Check if a training center with the given center code already exists
-        if (existsByCenterCode(centerCode)) {
-            throw new IllegalStateException("Training center with code " + centerCode + " already exists!");
-        }
         try {
             // Populate the createdOn field with the server timestamp
             newCenter.setCreatedOn(LocalDateTime.now());
@@ -37,6 +28,8 @@ public class TrainingCenterService {
             throw new RuntimeException("Failed to add training center. Please try again later.", ex);
         }
     }
+
+    // Method to check if a training center exists by its center code
     public boolean existsByCenterCode(String code){
         for(TrainingCenter center : trainingCenterRepo.findAll()){
             if(center.getCenterCode().equals(code)){
@@ -46,15 +39,19 @@ public class TrainingCenterService {
         return false;
     }
 
+    // Method to retrieve all training centers
     public List<TrainingCenter> getAllCenters(){
         return trainingCenterRepo.findAll();
     }
 
+
+    // Method to retrieve a training center by its ID
     public TrainingCenter getCenter(Integer centerId){
         TrainingCenter center = trainingCenterRepo.findById(centerId).orElseThrow();
         return center;
     }
 
+    // Method to update courses offered by a training center
     public String updateCourses(Integer centerId, List<String> newCourses) {
        TrainingCenter center = getCenter(centerId);
         center.getCoursesOffered().addAll(newCourses);
@@ -62,6 +59,7 @@ public class TrainingCenterService {
         return "Courses updated successfully";
     }
 
+    // Method to update contact email of a training center
     public String updateEmail(Integer centerId, String newEmail) {
         TrainingCenter center = getCenter(centerId);
         center.setContactEmail(newEmail);
@@ -69,7 +67,7 @@ public class TrainingCenterService {
         return  "Contact email updated successfully";
     }
 
-
+    // Method to update contact phone number of a training center
     public String updateContactPhone(Integer centerId, String newContactPhone) {
         TrainingCenter center = getCenter(centerId);
         center.setContactPhone(newContactPhone);
@@ -77,7 +75,7 @@ public class TrainingCenterService {
         return "Contact phone number updated successfully";
     }
 
-
+    // Method to update address of a training center
     public String updateAddress(Integer centerId, Address address) {
         TrainingCenter center = getCenter(centerId);
         center.setCenterAddress(address);
@@ -85,6 +83,7 @@ public class TrainingCenterService {
         return "Center address updated successfully";
     }
 
+    // Method to retrieve a training center by its center code
     public TrainingCenter getCenterByCode(String centerCode) {
         for(TrainingCenter center : trainingCenterRepo.findAll()){
             if(center.getCenterCode().equals(centerCode)){
@@ -94,6 +93,7 @@ public class TrainingCenterService {
         throw new IllegalStateException("No training center found with code: " + centerCode);
     }
 
+    // Method to retrieve training centers in a particular state
     public List<TrainingCenter> getCentersByState(String state) {
         List<TrainingCenter> centers = new ArrayList<>();
         for(TrainingCenter center : trainingCenterRepo.findAll()){
@@ -104,6 +104,7 @@ public class TrainingCenterService {
         return centers;
     }
 
+    // Method to retrieve training centers in a particular city
     public List<TrainingCenter> getCentersByCity(String city) {
         List<TrainingCenter> centers = new ArrayList<>();
         for(TrainingCenter center : trainingCenterRepo.findAll()){
@@ -114,7 +115,7 @@ public class TrainingCenterService {
         return centers;
     }
 
-
+    // Method to retrieve training centers by student capacity
     public List<TrainingCenter> getCentersByStudentCapacity(Integer capacity) {
         List<TrainingCenter> centers = new ArrayList<>();
         for(TrainingCenter center : trainingCenterRepo.findAll()){
@@ -125,6 +126,7 @@ public class TrainingCenterService {
         return centers;
     }
 
+    // Method to retrieve training centers founded between two dates
     public List<TrainingCenter> getCentersFoundedBetween(LocalDateTime dateTime1, LocalDateTime dateTime2) {
         List<TrainingCenter> centers = new ArrayList<>();
         for(TrainingCenter center : trainingCenterRepo.findAll()){
@@ -136,7 +138,7 @@ public class TrainingCenterService {
         return centers;
     }
 
-
+    // Method to retrieve training centers within a capacity range
     public List<TrainingCenter> getCentersWithCapacityInRange(Integer minCapacity, Integer maxCapacity) {
         List<TrainingCenter> centers = new ArrayList<>();
         for(TrainingCenter center : trainingCenterRepo.findAll()){
@@ -147,13 +149,19 @@ public class TrainingCenterService {
         return centers;
     }
 
+    // Method to delete a training center by its center code
     public String deleteCenter(String centerCode) {
-        if(existsByCenterCode(centerCode))
+        if(existsByCenterCode(centerCode)){
+            TrainingCenter center = getCenterByCode(centerCode);
+            Integer centerId = center.getCenterId();
+            trainingCenterRepo.deleteById(centerId);
             return "Training Center with the center code " + centerCode + " has been deleted";
+        }
         else
             return "Training Center with the center code " + centerCode + " does not exists";
     }
 
+    // Method to retrieve a training center by its center name
     public TrainingCenter getCenterByName(String centerName) {
         for(TrainingCenter center : trainingCenterRepo.findAll()){
             if(center.getCenterName().equals(centerName)){
@@ -163,7 +171,7 @@ public class TrainingCenterService {
         throw new IllegalStateException("No training center found with name " + centerName);
     }
 
-
+    // Method to retrieve training centers by multiple criteria
     public List<TrainingCenter> getCentersByMoreThanOneCriteria(String centerName, String centerCode, String city, String state, Integer capacity) {
         List<TrainingCenter> centers = new ArrayList<>();
         for(TrainingCenter center : trainingCenterRepo.findAll()){
