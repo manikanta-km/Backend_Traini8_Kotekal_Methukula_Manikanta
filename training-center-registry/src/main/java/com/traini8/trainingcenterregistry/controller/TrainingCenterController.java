@@ -69,14 +69,9 @@ public class TrainingCenterController {
         return trainingCenterService.getCentersByStudentCapacity(capacity);
     }
 
-    @GetMapping("centersWithCapacityGreaterThan")
-    public List<TrainingCenter> getCentersWithCapacityGreater(@RequestParam Integer capacity){
-        return trainingCenterService.getCentersWithCapacityGreater(capacity);
-    }
-
-    @GetMapping("centersWithCapacityLessThan")
-    public List<TrainingCenter> getCentersWithCapacityLess(@RequestParam Integer capacity){
-        return trainingCenterService.getCentersWithCapacityLess(capacity);
+    @GetMapping("centersWithinCapacityRange")
+    public List<TrainingCenter> getCentersWithCapacityInRange(@RequestParam Integer minCapacity, @RequestParam Integer maxCapacity){
+        return trainingCenterService.getCentersWithCapacityInRange(minCapacity,maxCapacity);
     }
 
     @GetMapping("centersFoundedBetween")

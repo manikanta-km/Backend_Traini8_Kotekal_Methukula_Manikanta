@@ -137,20 +137,10 @@ public class TrainingCenterService {
     }
 
 
-    public List<TrainingCenter> getCentersWithCapacityGreater(Integer capacity) {
+    public List<TrainingCenter> getCentersWithCapacityInRange(Integer minCapacity, Integer maxCapacity) {
         List<TrainingCenter> centers = new ArrayList<>();
         for(TrainingCenter center : trainingCenterRepo.findAll()){
-            if(center.getStudentCapacity() > capacity){
-                centers.add(center);
-            }
-        }
-        return centers;
-    }
-
-    public List<TrainingCenter> getCentersWithCapacityLess(Integer capacity) {
-        List<TrainingCenter> centers = new ArrayList<>();
-        for(TrainingCenter center : trainingCenterRepo.findAll()){
-            if(center.getStudentCapacity() < capacity){
+            if(center.getStudentCapacity() >= minCapacity && center.getStudentCapacity() <= maxCapacity){
                 centers.add(center);
             }
         }
