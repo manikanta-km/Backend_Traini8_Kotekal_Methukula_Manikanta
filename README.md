@@ -39,8 +39,7 @@ The Training Center Registry project is aimed at providing a centralized system 
 - **GET /centersInAState:** Get a list of training centers in a specific state.
 - **GET /centersInACity:** Get a list of training centers in a specific city.
 - **GET /centersByCapacity:** Get a list of training centers based on student capacity.
-- **GET /centersWithCapacityGreaterThan:** Get a list of training centers with capacity greater than a specified value.
-- **GET /centersWithCapacityLessThan:** Get a list of training centers with capacity less than a specified value.
+- **GET /centersWithInCapacityRange:** Get a list of training centers which are having capacity in the given range.
 - **GET /centersFoundedBetween:** Get a list of training centers founded between two specified dates.
 - **DELETE /center:** Delete a training center by its center code.
 - **GET /centersWithMultipleCriteria:** Get a list of training centers based on multiple criteria.
