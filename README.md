@@ -25,7 +25,7 @@ The Training Center Registry project is aimed at providing a centralized system 
 1. Clone the repository to your local machine.
 2. Set up a MySQL database and configure the database connection properties in the `application.properties` file.
 3. Build and run the project using Maven or your preferred IDE.
-4. Access the RESTful APIs using tools like Postman or integrate them into your frontend application.
+4. Access the RESTful APIs using tools like Postman.
 
 ## API Documentation
 - **POST /trainingCenter:** Create a new training center.
