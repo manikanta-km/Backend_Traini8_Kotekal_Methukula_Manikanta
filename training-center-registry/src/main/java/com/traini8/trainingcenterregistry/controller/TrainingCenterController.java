@@ -94,6 +94,12 @@ public class TrainingCenterController {
         return trainingCenterService.getCentersFoundedBetween(dateTime1,dateTime2);
     }
 
+    // Endpoint to retrieve training centers that offers a specific courses
+    @GetMapping("centersOfferingTheCourses")
+    public List<TrainingCenter> getCentersOfferingCourse(@RequestParam List<String> courses){
+        return trainingCenterService.getCentersByCourse(courses);
+    }
+
     // Endpoint to delete a training center by its center code
     @DeleteMapping("center")
     public String deleteCenter(@RequestParam String centerCode){

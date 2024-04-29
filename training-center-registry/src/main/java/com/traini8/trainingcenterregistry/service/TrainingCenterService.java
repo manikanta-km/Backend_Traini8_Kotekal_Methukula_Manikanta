@@ -171,6 +171,17 @@ public class TrainingCenterService {
         throw new IllegalStateException("No training center found with name " + centerName);
     }
 
+    // Method to retrieve training centers offering a specific courses
+    public List<TrainingCenter> getCentersByCourse(List<String> courses) {
+        List<TrainingCenter> centersWithCourse = new ArrayList<>();
+        for (TrainingCenter center : trainingCenterRepo.findAll()) {
+            if (center.getCoursesOffered().containsAll(courses)) {
+                centersWithCourse.add(center);
+            }
+        }
+        return centersWithCourse;
+    }
+
     // Method to retrieve training centers by multiple criteria
     public List<TrainingCenter> getCentersByMoreThanOneCriteria(String centerName, String centerCode, String city, String state, Integer capacity) {
         List<TrainingCenter> centers = new ArrayList<>();
