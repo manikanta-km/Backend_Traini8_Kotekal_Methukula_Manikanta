@@ -106,7 +106,7 @@ public class TrainingCenterController {
         return trainingCenterService.deleteCenter(centerCode);
     }
 
-    // Endpoint to get training centers by multiple criteria
+    // Endpoint to get training centers by multiple criteria, allowing for any combination of the provided criteria.
     @GetMapping("centersWithMultipleCriteria")
     public List<TrainingCenter> getCentersByCriteria(@RequestParam (required = false) String centerName, @RequestParam (required = false) String city, @RequestParam (required = false) String state , @RequestParam(required = false) Integer capacity, @RequestParam(required = false) List<String> courses){
         return trainingCenterService.getCentersByMoreThanOneCriteria(centerName,city, state, capacity, courses);
