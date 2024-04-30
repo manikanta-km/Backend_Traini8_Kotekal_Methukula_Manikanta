@@ -108,8 +108,8 @@ public class TrainingCenterController {
 
     // Endpoint to get training centers by multiple criteria
     @GetMapping("centersWithMultipleCriteria")
-    public List<TrainingCenter> getCentersByCriteria(@RequestParam (required = false) String centerName, @RequestParam (required = false) String centerCode , @RequestParam (required = false) String city, @RequestParam (required = false) String state , @RequestParam(required = false) Integer capacity){
-        return trainingCenterService.getCentersByMoreThanOneCriteria(centerName, centerCode, city, state, capacity);
+    public List<TrainingCenter> getCentersByCriteria(@RequestParam (required = false) String centerName, @RequestParam (required = false) String city, @RequestParam (required = false) String state , @RequestParam(required = false) Integer capacity, @RequestParam(required = false) List<String> courses){
+        return trainingCenterService.getCentersByMoreThanOneCriteria(centerName,city, state, capacity, courses);
     }
 
 }

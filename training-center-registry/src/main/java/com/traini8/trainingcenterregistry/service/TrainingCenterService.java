@@ -183,14 +183,14 @@ public class TrainingCenterService {
     }
 
     // Method to retrieve training centers by multiple criteria
-    public List<TrainingCenter> getCentersByMoreThanOneCriteria(String centerName, String centerCode, String city, String state, Integer capacity) {
+    public List<TrainingCenter> getCentersByMoreThanOneCriteria(String centerName, String city, String state, Integer capacity, List<String> courses) {
         List<TrainingCenter> centers = new ArrayList<>();
         for(TrainingCenter center : trainingCenterRepo.findAll()){
             if((city == null || center.getCenterAddress().getCity().equals(city)) &&
                     (capacity == null || center.getStudentCapacity().equals(capacity))  &&
                     (centerName == null || center.getCenterName().equals(centerName)) &&
-                    (centerCode == null || center.getCenterCode().equals(centerCode)) &&
-                    (state == null || center.getCenterAddress().getState().equals(state) )){
+                    (state == null || center.getCenterAddress().getState().equals(state)) &&
+                    (courses == null || center.getCoursesOffered().containsAll(courses))){
                 centers.add(center);
             }
         }
