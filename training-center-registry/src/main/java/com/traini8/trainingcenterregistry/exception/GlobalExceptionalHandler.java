@@ -9,10 +9,12 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.HandlerMethod;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
@@ -53,11 +55,33 @@ public class GlobalExceptionalHandler {
 
     // Handle ConstraintViolationException
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException ex) {
-        // Define error message for ConstraintViolationException
-        String errorMessage = "Please check your input ";
-        // Return error message with BAD_REQUEST status
-        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException ex, HandlerMethod handlerMethod) {
+        // Get the name of the method where the exception occurred
+        String methodName = handlerMethod.getMethod().getName();
+
+        // Based on the method name, customize the error message
+        String errorMessage;
+        switch (methodName) {
+            case "updateCourses":
+                errorMessage = "Invalid input: Please check the provided courses";
+                break;
+            case "updateEmail":
+                errorMessage = "Invalid input: Please provide a valid email address";
+                break;
+            case "updateContactPhone":
+                errorMessage = "Invalid input: Please provide a valid phone number";
+                break;
+            case "updateAddress":
+                errorMessage = "Invalid input: Please provide a valid address";
+                break;
+            default:
+                errorMessage = "Invalid input";
+        }
+
+        // Create ErrorResponse object with the customized error message
+        ErrorResponse errorResponse = new ErrorResponse(errorMessage, false);
+        // Return error response with BAD_REQUEST status
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     // Handle SQLIntegrityConstraintViolationException
@@ -69,6 +93,37 @@ public class GlobalExceptionalHandler {
         ErrorResponse errorResponse = new ErrorResponse(errorMessage, false);
         // Return error response with BAD_REQUEST status
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    // Handle NoSuchElementException
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<ErrorResponse> handleNoSuchElementException(NoSuchElementException ex, HandlerMethod handlerMethod) {
+        // Get the name of the method where the exception occurred
+        String methodName = handlerMethod.getMethod().getName();
+
+        // Based on the method name, customize the error message
+        String errorMessage;
+        switch (methodName) {
+            case "updateCourses":
+                errorMessage = "Unable to update courses: No such training center found";
+                break;
+            case "updateEmail":
+                errorMessage = "Unable to update email: No such training center found";
+                break;
+            case "updateContactPhone":
+                errorMessage = "Unable to update phone number: No such training center found";
+                break;
+            case "updateAddress":
+                errorMessage = "Unable to update address: No such training center found";
+                break;
+            default:
+                errorMessage = "No such training center found";
+        }
+
+        // Create ErrorResponse object with the customized error message
+        ErrorResponse errorResponse = new ErrorResponse(errorMessage, false);
+        // Return error response with NOT_FOUND status
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
 }
