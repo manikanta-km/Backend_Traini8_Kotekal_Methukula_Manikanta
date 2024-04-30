@@ -43,7 +43,7 @@ The Training Center Registry project is aimed at providing a centralized system 
 - **GET /centersFoundedBetween:** Get a list of training centers founded between two specified dates.
 - **GET /centersOfferingTheCourses:** Get a list of training centers that offers specific courses.
 - **DELETE /center:** Delete a training center by its center code.
-- **GET /centersWithMultipleCriteria:** Get a list of training centers based on multiple criteria.
+- **GET /centersWithMultipleCriteria:** Get a list of training centers based on multiple criteria, allowing for any combination of the provided criteria.
 
 ## Contributors
 - Manikanta Kotekal Methukula
